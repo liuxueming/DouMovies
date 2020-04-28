@@ -42,4 +42,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 }
