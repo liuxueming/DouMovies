@@ -5,19 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <androidx.cardview.widget.CardView
         android:id="@+id/weekly_rank_cover"
         android:layout_width="110dp"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
+        app:cardCornerRadius="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/rank_cover" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
+        <ImageView
+            android:id="@+id/weekly_rank_cover_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@mipmap/rank_cover" />
+
+        <TextView
+            android:id="@+id/weekly_rank_cover_text"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_rank_bg"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/weekly_rank_stills"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -25,12 +42,21 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:scaleType="centerCrop"
+        app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/weekly_rank_cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/weekly_rank_cover"
-        app:layout_constraintTop_toTopOf="@+id/weekly_rank_cover"
-        app:srcCompat="@mipmap/rank_stills" />
+        app:layout_constraintTop_toTopOf="@+id/weekly_rank_cover">
+
+        <ImageView
+            android:id="@+id/weekly_rank_stills_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@mipmap/rank_stills" />
+        />
+    </androidx.cardview.widget.CardView>
+
 
     <TextView
         android:id="@+id/weekly_rank_title"
@@ -109,6 +135,7 @@
         app:layout_constraintTop_toBottomOf="@+id/weekly_rank_tags" />
 
     <LinearLayout
+        android:id="@+id/weekly_rank_linear_tags"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
