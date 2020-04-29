@@ -104,8 +104,10 @@ class MovieRepository(context: Context) {
                     }
                     weeklyMovieItem.photos = moviePhotos
                     weeklyMovieItem.countries = response.countries
+                    println(111)
                 }
             }, {})
+            println(222)
             weeklyMovieItem
         }
     }

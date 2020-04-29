@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.thoughtworks.doumovies.http.MovieHttp
 import com.thoughtworks.doumovies.model.WeeklyMovieItem
+import com.thoughtworks.doumovies.model.WeeklyMoviePhoto
 import com.thoughtworks.doumovies.model.http.MovieDetailResponse
 import com.thoughtworks.doumovies.repository.MovieRepository
 
@@ -21,6 +22,7 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
             movieHttp.getWeeklyMovies({ weeklyMovieResponse ->
                 val weeklyMovieItems = movieRepository.mapToWeeklyMovieItem(weeklyMovieResponse)
                 weeklyMovieLiveData.postValue(weeklyMovieItems)
+//                getAndUpdateDetailInfo(weeklyMovieItems)
                 movieRepository.saveWeeklyMovieToDb(weeklyMovieItems)
             }, {})
         } else {
@@ -32,5 +34,20 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
         movieHttp.getMovieDetail(movieId, { movieDetail ->
             movieDetailLiveData.postValue(movieDetail)
         }, {})
+    }
+
+    fun getAndUpdateDetailInfo(weeklyMovieItems: List<WeeklyMovieItem>) {
+        weeklyMovieItems.forEach {
+            movieHttp.getMovieDetail(it.movieId, { movieDetail ->
+                it.summary = movieDetail.summary
+                val moviePhotos = movieDetail.photos.map {
+                    WeeklyMoviePhoto(it.alt, it.cover, it.icon, it.image, it.thumb)
+                }
+                it.photos = moviePhotos
+                it.countries = movieDetail.countries
+                println(weeklyMovieItems[0].summary)
+                weeklyMovieLiveData.postValue(weeklyMovieItems)
+            }, {})
+        }
     }
 }
