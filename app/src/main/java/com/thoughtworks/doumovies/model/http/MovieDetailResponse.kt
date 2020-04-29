@@ -1,14 +1,11 @@
-package com.thoughtworks.doumovies.model
+package com.thoughtworks.doumovies.model.http
 
-import com.google.gson.annotations.SerializedName
-
-data class MovieDetail(
+data class MovieDetailResponse(
     val aka: List<String>,
     val alt: String,
-    @SerializedName("mainland_pubdate")
     val blooper_urls: List<Any>,
     val bloopers: List<Any>,
-    val casts: List<Cast>,
+    val casts: List<People>,
     val clip_urls: List<Any>,
     val clips: List<Any>,
     val collect_count: Int,
@@ -16,7 +13,7 @@ data class MovieDetail(
     val comments_count: Int,
     val countries: List<String>,
     val current_season: Any,
-    val directors: List<Director>,
+    val directors: List<People>,
     val do_count: Any,
     val douban_site: String,
     val durations: List<String>,
@@ -37,7 +34,7 @@ data class MovieDetail(
     val popular_reviews: List<PopularReview>,
     val pubdate: String,
     val pubdates: List<String>,
-    val rating: RatingXX,
+    val rating: Rating,
     val ratings_count: Int,
     val reviews_count: Int,
     val schedule_url: String,
@@ -52,7 +49,7 @@ data class MovieDetail(
     val videos: List<Video>,
     val website: String,
     val wish_count: Int,
-    val writers: List<Writer>,
+    val writers: List<People>,
     val year: String
 )
 
@@ -77,20 +74,12 @@ data class PopularComment(
 
 data class PopularReview(
     val alt: String,
-    val author: AuthorX,
+    val author: Author,
     val id: String,
     val rating: RatingX,
     val subject_id: String,
     val summary: String,
     val title: String
-)
-
-data class RatingXX(
-    val average: Double,
-    val details: Details,
-    val max: Int,
-    val min: Int,
-    val stars: String
 )
 
 data class Video(
@@ -100,24 +89,7 @@ data class Video(
     val video_id: String
 )
 
-data class Writer(
-    val alt: String,
-    val avatars: AvatarsXX,
-    val id: String,
-    val name: String,
-    val name_en: String
-)
-
 data class Author(
-    val alt: String,
-    val avatar: String,
-    val id: String,
-    val name: String,
-    val signature: String,
-    val uid: String
-)
-
-data class AuthorX(
     val alt: String,
     val avatar: String,
     val id: String,
@@ -136,10 +108,4 @@ data class Source(
     val literal: String,
     val name: String,
     val pic: String
-)
-
-data class AvatarsXX(
-    val large: String,
-    val medium: String,
-    val small: String
 )

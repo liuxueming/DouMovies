@@ -1,4 +1,6 @@
-package com.thoughtworks.doumovies.model
+package com.thoughtworks.doumovies.model.http
+
+import com.thoughtworks.doumovies.model.http.Details
 
 data class Rating(
     val average: Double,

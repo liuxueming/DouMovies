@@ -1,4 +1,4 @@
-package com.thoughtworks.doumovies.api
+package com.thoughtworks.doumovies.http
 
 import okhttp3.OkHttpClient
 

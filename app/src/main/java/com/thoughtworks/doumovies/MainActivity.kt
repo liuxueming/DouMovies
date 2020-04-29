@@ -12,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //测试
-        val movieViewModel = MovieViewModel(this.application)
-        movieViewModel.weeklyMovieLiveData.observe(this, Observer { weeklyMovie -> println(weeklyMovie.title) })
+        val movieViewModel = MovieViewModel(this, this.application)
+        movieViewModel.weeklyMovieLiveData.observe(this, Observer { weeklyMovieItem ->
+            println("===${weeklyMovieItem[0].rating.goodRate}") })
         movieViewModel.getWeeklyMovie()
     }
 }
