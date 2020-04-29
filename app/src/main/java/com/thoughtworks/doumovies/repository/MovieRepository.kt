@@ -78,7 +78,7 @@ class MovieRepository(context: Context) {
 
     fun mapToWeeklyMovieItem(weeklyMovieResponse: WeeklyMovieResponse): List<WeeklyMovieItem> {
         return weeklyMovieResponse.subjects.map {
-            var weeklyMovieItem = WeeklyMovieItem(
+            WeeklyMovieItem(
                 movieId = it.subject.id,
                 delta = it.delta,
                 rank = it.rank,
@@ -96,19 +96,6 @@ class MovieRepository(context: Context) {
                 summary = null,
                 countries = null
             )
-            movieHttp.getMovieDetail(it.subject.id, { response ->
-                run {
-                    weeklyMovieItem.summary = response.summary
-                    val moviePhotos = response.photos.map {
-                        WeeklyMoviePhoto(it.alt, it.cover, it.icon, it.image, it.thumb)
-                    }
-                    weeklyMovieItem.photos = moviePhotos
-                    weeklyMovieItem.countries = response.countries
-                    println(111)
-                }
-            }, {})
-            println(222)
-            weeklyMovieItem
         }
     }
 
@@ -147,7 +134,17 @@ class MovieRepository(context: Context) {
         )
     }
 
-    fun getGoodRate(rating: Rating): Double {
+    fun updateWeeklyMovieItem(weeklyMovieItem: WeeklyMovieItem) {
+        movieItemDao.updateSummaryAndCountriesByMovieId(weeklyMovieItem.movieId, weeklyMovieItem.summary, weeklyMovieItem.countries?.joinToString(","))
+        weeklyMovieItem.photos?.let {
+            val moviePhotos = it.map {
+                MoviePhoto(null, weeklyMovieItem.movieId, it.alt, it.cover, it.icon, it.image, it.thumb)
+            }
+            moviePhotoDao.insert(moviePhotos)
+        }
+    }
+
+    private fun getGoodRate(rating: Rating): Double {
         val details = rating.details
         var sum = details.fourScore + details.fiveScore + details.threeScore + details.secondScore + details.firstScore
         val goodRate = (details.fourScore + details.fiveScore) / sum

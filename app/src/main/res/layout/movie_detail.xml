@@ -34,8 +34,7 @@
             android:id="@+id/avatar_img"
             android:layout_width="match_parent"
             android:layout_height="166dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/rank_cover" />
+            android:scaleType="centerCrop"/>
 
     </androidx.cardview.widget.CardView>
 

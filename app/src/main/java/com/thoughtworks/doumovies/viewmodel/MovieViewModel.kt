@@ -22,7 +22,7 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
             movieHttp.getWeeklyMovies({ weeklyMovieResponse ->
                 val weeklyMovieItems = movieRepository.mapToWeeklyMovieItem(weeklyMovieResponse)
                 weeklyMovieLiveData.postValue(weeklyMovieItems)
-//                getAndUpdateDetailInfo(weeklyMovieItems)
+                getAndUpdateDetailInfo(weeklyMovieItems)
                 movieRepository.saveWeeklyMovieToDb(weeklyMovieItems)
             }, {})
         } else {
@@ -45,8 +45,8 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
                 }
                 it.photos = moviePhotos
                 it.countries = movieDetail.countries
-                println(weeklyMovieItems[0].summary)
                 weeklyMovieLiveData.postValue(weeklyMovieItems)
+                movieRepository.updateWeeklyMovieItem(it)
             }, {})
         }
     }
