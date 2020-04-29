@@ -53,7 +53,7 @@ class MovieRepository(context: Context) {
             )
 
             var moviePeoples = it.casts
-                .map {
+                ?.map {
                     MoviePeople(null, movieItem.movieId, "cast", it.name, it.avatarLarge, it.avatarMedium, it.avatarSmall)
                 } as MutableList<MoviePeople>
 
