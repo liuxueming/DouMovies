@@ -1,154 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/weekly_rank_cover"
-        android:layout_width="110dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        app:cardCornerRadius="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
+        <variable name="item"
+        type="com.thoughtworks.doumovies.model.WeeklyMovieItem"/>
+    </data>
 
-        <ImageView
-            android:id="@+id/weekly_rank_cover_img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/rank_cover" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/weekly_rank_cover"
+            android:layout_width="110dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/weekly_rank_cover_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:remote="@{item.imageLarge}"
+                app:srcCompat="@drawable/ic_image_loading" />
+
+            <TextView
+                android:id="@+id/weekly_rank_cover_text"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_rank_bg"
+                android:gravity="center"
+                android:text="@{String.valueOf(item.rank)}"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/weekly_rank_stills"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/weekly_rank_cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/weekly_rank_cover"
+            app:layout_constraintTop_toTopOf="@+id/weekly_rank_cover">
+
+            <ImageView
+                android:id="@+id/weekly_rank_stills_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:remote="@{item.photos[0].image}"
+                app:srcCompat="@drawable/ic_image_loading" />
+            />
+        </androidx.cardview.widget.CardView>
+
 
         <TextView
-            android:id="@+id/weekly_rank_cover_text"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_rank_bg"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-    </androidx.cardview.widget.CardView>
+            android:id="@+id/weekly_rank_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@{item.title}"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/weekly_rank_cover"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_cover" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/weekly_rank_stills"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/weekly_rank_cover"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/weekly_rank_cover"
-        app:layout_constraintTop_toTopOf="@+id/weekly_rank_cover">
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/weekly_rank_rating_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:focusableInTouchMode="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/rating_stars_unselected_color"
+            android:progressTint="@color/rating_stars_color"
+            android:rating="@{(float)(item.rating.average/2)}"
+            android:minHeight="18dp"
+            app:layout_constraintStart_toStartOf="@+id/weekly_rank_title"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_title" />
 
-        <ImageView
-            android:id="@+id/weekly_rank_stills_img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/rank_stills" />
-        />
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/weekly_rank_rating_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="@{String.valueOf(item.rating.average)}"
+            android:textColor="#F3AC3D"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/weekly_rank_tags"
+            app:layout_constraintStart_toEndOf="@+id/weekly_rank_rating_stars"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_title" />
 
+        <TextView
+            android:id="@+id/weekly_rank_positiv_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/weekly_rank_default_corner_bg"
+            android:textColor="#F3AC3D"
+            app:positiveRate="@{item.rating.goodRate}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/weekly_rank_rating_value"
+            app:layout_constraintStart_toEndOf="@+id/weekly_rank_rating_value" />
 
-    <TextView
-        android:id="@+id/weekly_rank_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="标准之外"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/weekly_rank_cover"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_cover" />
+        <TextView
+            android:id="@+id/weekly_rank_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:intro="@{item}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/weekly_rank_rating_stars"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_rating_stars" />
 
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/weekly_rank_rating_stars"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:focusableInTouchMode="false"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:progressBackgroundTint="@color/rating_stars_unselected_color"
-        android:progressTint="@color/rating_stars_color"
-        android:rating="4.1"
-        android:minHeight="18dp"
-        app:layout_constraintStart_toStartOf="@+id/weekly_rank_title"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_title" />
+        <TextView
+            android:id="@+id/weekly_rank_intro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/weekly_rank_intro_bg"
+            android:text="TODO:summary ，哈哈哈啊哈哈"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/weekly_rank_tags"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_tags" />
 
-    <TextView
-        android:id="@+id/weekly_rank_rating_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="8.2"
-        android:textColor="#F3AC3D"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/weekly_rank_tags"
-        app:layout_constraintStart_toEndOf="@+id/weekly_rank_rating_stars"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_title" />
-
-    <TextView
-        android:id="@+id/weekly_rank_positiv_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:background="@drawable/weekly_rank_default_corner_bg"
-        android:text="85%好评"
-        android:textColor="#F3AC3D"
-        app:layout_constraintBaseline_toBaselineOf="@+id/weekly_rank_rating_value"
-        app:layout_constraintStart_toEndOf="@+id/weekly_rank_rating_value" />
-
-    <TextView
-        android:id="@+id/weekly_rank_tags"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="2019/法国/剧情"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/weekly_rank_rating_stars"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_rating_stars" />
-
-    <TextView
-        android:id="@+id/weekly_rank_intro"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/weekly_rank_intro_bg"
-        android:text="二十年来，般奴和马力克生活在一个不同的世界当中，那是一个属于患自闭症的儿童和青少年的世界。他们二人分别管理The Hatch The Shelter两个非牟利机构，目标在贫困地区培训年青人担任守护工作，负责照顾一些被其他机构拒于门外的重度患者个案。这非传统的合作关系展现了非一般的人生。"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/weekly_rank_tags"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_tags" />
-
-    <LinearLayout
-        android:id="@+id/weekly_rank_linear_tags"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/weekly_rank_intro"
-        app:layout_constraintTop_toBottomOf="@+id/weekly_rank_intro"></LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/weekly_rank_linear_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/weekly_rank_intro"
+            app:layout_constraintTop_toBottomOf="@+id/weekly_rank_intro"
+            app:tags="@{item.genres}"></LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
