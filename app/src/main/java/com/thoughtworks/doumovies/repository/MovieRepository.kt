@@ -1,156 +1,69 @@
 package com.thoughtworks.doumovies.repository
 
-import android.content.Context
-import com.thoughtworks.doumovies.http.MovieHttp
-import com.thoughtworks.doumovies.model.*
-import com.thoughtworks.doumovies.model.http.Details
-import com.thoughtworks.doumovies.model.http.Rating
-import com.thoughtworks.doumovies.model.http.WeeklyMovieResponse
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.thoughtworks.doumovies.model.http.*
 import com.thoughtworks.doumovies.repository.room.config.DbInstance
 import com.thoughtworks.doumovies.repository.room.entity.MovieItem
-import com.thoughtworks.doumovies.repository.room.entity.MoviePeople
-import com.thoughtworks.doumovies.repository.room.entity.MoviePhoto
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
-class MovieRepository(context: Context) {
-    val db = DbInstance.getDbInstance(context)
-    val movieItemDao = db.movieItemDao()
-    val moviePeopleDao = db.moviePeopleDao()
-    val moviePhotoDao = db.moviePhotoDao()
-    val movieHttp = MovieHttp()
+class MovieRepository() {
+    private val movieItemDao = DbInstance.getMovieItemDao()
+    private val gson = Gson()
 
     fun getWeeklyMovieFromDb(): List<WeeklyMovieItem> {
-        val result = mutableListOf<WeeklyMovieItem>()
         val movieItems = movieItemDao.findAll()
-        movieItems.forEach {
-            val moviePeoples = moviePeopleDao.findByMovieId(it.movieId)
-            val moviePhotos = moviePhotoDao.findByMovieId(it.movieId)
-            result.add(mapToWeeklyMovieItem(it, moviePeoples, moviePhotos))
-        }
-        return result
+        return movieItems.map { mapToWeeklyMovieItem(it) }
     }
 
-    fun saveWeeklyMovieToDb(mapToWeeklyMovieItems: List<WeeklyMovieItem>) {
-        mapToWeeklyMovieItems.forEach {
-            var movieItem = MovieItem(
-                id = null,
-                movieId = it.movieId,
-                delta = it.delta,
-                rank = it.rank,
-                genres = it.genres.joinToString(","),
-                originalTitle = it.originalTitle,
-                ratingAverage = it.rating.average,
-                ratingStars = it.rating.stars,
-                ratingGoodRate = it.rating.goodRate,
-                title = it.title,
-                year = it.year,
-                imageLarge = it.imageLarge,
-                imageMedium = it.imageMedium,
-                imageSmall = it.imageSmall,
-                summary = it.summary,
-                countries = it.countries?.joinToString(",")
-            )
-
-            var moviePeoples = it.casts
-                ?.map {
-                    MoviePeople(null, movieItem.movieId, "cast", it.name, it.avatarLarge, it.avatarMedium, it.avatarSmall)
-                } as MutableList<MoviePeople>
-
-            val directors = it.directors
-                .map {
-                    MoviePeople(null, movieItem.movieId, "director", it.name, it.avatarLarge, it.avatarMedium, it.avatarSmall)
-                } as MutableList<MoviePeople>
-
-            moviePeoples.addAll(directors)
-
-            it.photos?.let {
-                val moviePhotos = it.map {
-                    MoviePhoto(null, movieItem.movieId, it.alt, it.cover, it.icon, it.image, it.thumb)
-                }
-                moviePhotoDao.insert(moviePhotos)
-            }
-
-            movieItemDao.insert(movieItem)
-            moviePeopleDao.insert(moviePeoples)
-        }
+    fun saveWeeklyMovieToDb(weeklyMovieResponse: WeeklyMovieResponse) {
+        movieItemDao.insert(mapToMovieItem(weeklyMovieResponse))
     }
 
-    fun mapToWeeklyMovieItem(weeklyMovieResponse: WeeklyMovieResponse): List<WeeklyMovieItem> {
+    private fun mapToMovieItem(weeklyMovieResponse: WeeklyMovieResponse): List<MovieItem> {
         return weeklyMovieResponse.subjects.map {
-            WeeklyMovieItem(
+            MovieItem(
                 movieId = it.subject.id,
                 delta = it.delta,
                 rank = it.rank,
-                casts = it.subject.casts.map { WeeklyMoviePeople(it.name, it.avatars?.large, it.avatars?.medium, it.avatars?.small) },
-                directors = it.subject.directors.map { WeeklyMoviePeople(it.name, it.avatars?.large, it.avatars?.medium, it.avatars?.small) },
-                genres = it.subject.genres,
+                casts = Gson().toJson(it.subject.casts),
+                directors = Gson().toJson(it.subject.directors),
+                genres = it.subject.genres.joinToString(","),
                 originalTitle = it.subject.originalTitle,
-                rating = WeeklyMovieRating(it.subject.rating.average, it.subject.rating.stars, getGoodRate(it.subject.rating)),
+                rating = Gson().toJson(it.subject.rating),
                 title = it.subject.title,
                 year = it.subject.year,
                 photos = null,
-                imageLarge = it.subject.images.large,
-                imageMedium = it.subject.images.medium,
-                imageSmall = it.subject.images.small,
-                summary = null,
-                countries = null
+                images = Gson().toJson(it.subject.images)
             )
         }
     }
 
-    fun mapToWeeklyMovieItem(
-        movieItem: MovieItem,
-        moviePeoples: List<MoviePeople>,
-        moviePhotos: List<MoviePhoto>
-    ): WeeklyMovieItem {
-        val casts = moviePeoples
-            .filter { it.type == "cast" }
-            .map { WeeklyMoviePeople(it.name, it.avatarLarge, it.avatarMedium, it.avatarSmall) }
-
-        val directors = moviePeoples
-            .filter { it.type == "director" }
-            .map { WeeklyMoviePeople(it.name, it.avatarLarge, it.avatarMedium, it.avatarSmall) }
-
-        val photos =
-            moviePhotos.map { WeeklyMoviePhoto(it.alt, it.cover, it.icon, it.image, it.thumb) }
-        return WeeklyMovieItem(
-            movieId = movieItem.movieId,
-            delta = movieItem.delta,
-            rank = movieItem.rank,
-            casts = casts,
-            directors = directors,
+    private fun mapToWeeklyMovieItem(movieItem: MovieItem): WeeklyMovieItem {
+        val subjectX = SubjectX(
+            id = movieItem.movieId,
+            casts = gson.fromJson(movieItem.casts, object :TypeToken<List<People>>(){}.type),
+            directors = gson.fromJson(movieItem.directors, object :TypeToken<List<People>>(){}.type),
             genres = movieItem.genres.split(","),
+            images = gson.fromJson(movieItem.images, Images::class.java),
             originalTitle = movieItem.originalTitle,
-            rating = WeeklyMovieRating(movieItem.ratingAverage, movieItem.ratingStars, movieItem.ratingGoodRate),
+            rating = gson.fromJson(movieItem.rating, Rating::class.java),
             title = movieItem.title,
             year = movieItem.year,
-            photos = photos,
-            imageLarge = movieItem.imageLarge,
-            imageMedium = movieItem.imageMedium,
-            imageSmall = movieItem.imageSmall,
             summary = movieItem.summary,
-            countries = movieItem.countries?.split(",")
+            countries = movieItem.countries?.split(","),
+            photos = gson.fromJson(movieItem.photos, object :TypeToken<List<Photo>>(){}.type)
+        )
+        return WeeklyMovieItem(
+            delta = movieItem.delta,
+            rank = movieItem.rank,
+            subject = subjectX
         )
     }
 
-    fun updateWeeklyMovieItem(weeklyMovieItem: WeeklyMovieItem) {
-        movieItemDao.updateSummaryAndCountriesByMovieId(weeklyMovieItem.movieId, weeklyMovieItem.summary, weeklyMovieItem.countries?.joinToString(","))
-        weeklyMovieItem.photos?.let {
-            val moviePhotos = it.map {
-                MoviePhoto(null, weeklyMovieItem.movieId, it.alt, it.cover, it.icon, it.image, it.thumb)
-            }
-            moviePhotoDao.insert(moviePhotos)
-        }
-    }
-
-    private fun getGoodRate(rating: Rating): Double {
-        val details = rating.details
-        var sum = details.fourScore + details.fiveScore + details.threeScore + details.secondScore + details.firstScore
-        val goodRate = (details.fourScore + details.fiveScore) / sum
-        val format = DecimalFormat("0.##")
-        format.roundingMode = RoundingMode.FLOOR
-        return format.format(goodRate).toDouble()
+    fun updateWeeklyMovieItem(movieDetail: MovieDetailResponse) {
+        val photos = Gson().toJson(movieDetail.photos)
+        val countries = movieDetail.countries.joinToString(",")
+        movieItemDao.updateSummaryAndCountriesByMovieId(movieDetail.id, movieDetail.summary, countries, photos)
     }
 
 }

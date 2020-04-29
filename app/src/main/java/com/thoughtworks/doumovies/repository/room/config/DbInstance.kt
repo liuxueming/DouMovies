@@ -1,18 +1,26 @@
 package com.thoughtworks.doumovies.repository.room.config
 
-import android.content.Context
 import androidx.room.Room
+import com.thoughtworks.doumovies.MyApplication
+import com.thoughtworks.doumovies.repository.room.dao.MovieItemDao
+import com.thoughtworks.doumovies.repository.room.dao.MoviePeopleDao
+import com.thoughtworks.doumovies.repository.room.dao.MoviePhotoDao
 
 object DbInstance {
-    var db: AppDatabase? = null
+    val db = Room.databaseBuilder(
+        MyApplication.getContext(),
+        AppDatabase::class.java, "database-douban"
+    ).allowMainThreadQueries().build()
 
-    fun getDbInstance(context: Context): AppDatabase {
-        if (db == null) {
-            db = Room.databaseBuilder(
-                context,
-                AppDatabase::class.java, "database-douban"
-            ).allowMainThreadQueries().build()
-        }
-        return db as AppDatabase
+    fun getMovieItemDao(): MovieItemDao {
+        return db.movieItemDao()
+    }
+
+    fun getMoviePeopleDao(): MoviePeopleDao {
+        return db.moviePeopleDao()
+    }
+
+    fun getMoviePhotoDao(): MoviePhotoDao {
+        return db.moviePhotoDao()
     }
 }

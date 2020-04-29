@@ -1,18 +1,16 @@
 package com.thoughtworks.doumovies.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.thoughtworks.doumovies.http.MovieHttp
-import com.thoughtworks.doumovies.model.WeeklyMovieItem
-import com.thoughtworks.doumovies.model.WeeklyMoviePhoto
+import com.thoughtworks.doumovies.utils.MovieHttpUtil
 import com.thoughtworks.doumovies.model.http.MovieDetailResponse
+import com.thoughtworks.doumovies.model.http.WeeklyMovieItem
 import com.thoughtworks.doumovies.repository.MovieRepository
 
-class MovieViewModel(context: Context, application: Application) : AndroidViewModel(application) {
-    private val movieRepository = MovieRepository(context)
-    private val movieHttp = MovieHttp()
+class MovieViewModel(application: Application) : AndroidViewModel(application) {
+    private val movieRepository = MovieRepository()
+    private val movieHttp = MovieHttpUtil()
     val weeklyMovieLiveData = MutableLiveData<List<WeeklyMovieItem>>()
     val movieDetailLiveData = MutableLiveData<MovieDetailResponse>()
 
@@ -20,10 +18,9 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
         val weeklyMovieFromDb = movieRepository.getWeeklyMovieFromDb()
         if (weeklyMovieFromDb.isEmpty()) {
             movieHttp.getWeeklyMovies({ weeklyMovieResponse ->
-                val weeklyMovieItems = movieRepository.mapToWeeklyMovieItem(weeklyMovieResponse)
-                weeklyMovieLiveData.postValue(weeklyMovieItems)
-                getAndUpdateDetailInfo(weeklyMovieItems)
-                movieRepository.saveWeeklyMovieToDb(weeklyMovieItems)
+                weeklyMovieLiveData.postValue(weeklyMovieResponse.subjects)
+                getAndUpdateDetailInfo(weeklyMovieResponse.subjects)
+                movieRepository.saveWeeklyMovieToDb(weeklyMovieResponse)
             }, {})
         } else {
             weeklyMovieLiveData.postValue(weeklyMovieFromDb)
@@ -36,15 +33,12 @@ class MovieViewModel(context: Context, application: Application) : AndroidViewMo
         }, {})
     }
 
-    fun getAndUpdateDetailInfo(weeklyMovieItems: List<WeeklyMovieItem>) {
-        weeklyMovieItems.forEach {
-            movieHttp.getMovieDetail(it.movieId, { movieDetail ->
-                it.summary = movieDetail.summary
-                val moviePhotos = movieDetail.photos.map {
-                    WeeklyMoviePhoto(it.alt, it.cover, it.icon, it.image, it.thumb)
-                }
-                it.photos = moviePhotos
-                it.countries = movieDetail.countries
+    private fun getAndUpdateDetailInfo(weeklyMovieItems: List<WeeklyMovieItem>) {
+        weeklyMovieItems.forEach { weeklyMovieItem ->
+            movieHttp.getMovieDetail(weeklyMovieItem.subject.id, {
+                weeklyMovieItem.subject.summary = it.summary
+                weeklyMovieItem.subject.photos = it.photos
+                weeklyMovieItem.subject.countries = it.countries
                 weeklyMovieLiveData.postValue(weeklyMovieItems)
                 movieRepository.updateWeeklyMovieItem(it)
             }, {})

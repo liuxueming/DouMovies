@@ -1,12 +1,11 @@
 package com.thoughtworks.doumovies
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thoughtworks.doumovies.databinding.WeeklyRankItemBinding
-import com.thoughtworks.doumovies.model.WeeklyMovieItem
+import com.thoughtworks.doumovies.model.http.WeeklyMovieItem
 
 class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val weeklyMovieItems = mutableListOf<WeeklyMovieItem>()

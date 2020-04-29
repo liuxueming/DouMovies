@@ -17,11 +17,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         configWeeklyRankView()
 
-        val movieViewModel = MovieViewModel(this, this.application)
+        val movieViewModel = MovieViewModel(this.application)
         movieViewModel.weeklyMovieLiveData.observe(this, Observer { weeklyMovieItem ->
             adapter.updateData(weeklyMovieItem)
         })
         movieViewModel.getWeeklyMovie()
+
+
+        weekly_rank_cover_img?.setOnClickListener {
+            val movieDetailFragment = MovieDetailFragment()
+            switchToMovieDetail(movieDetailFragment)
+        }
     }
 
     private fun configWeeklyRankView() {
