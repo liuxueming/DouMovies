@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.weekly_rank_item.*
 
 class MainActivity : AppCompatActivity() {
     private val adapter by lazy { WeeklyRankAdapter() }
@@ -23,11 +22,8 @@ class MainActivity : AppCompatActivity() {
         })
         movieViewModel.getWeeklyMovie()
 
-
-        weekly_rank_cover_img?.setOnClickListener {
-            val movieDetailFragment = MovieDetailFragment()
-            switchToMovieDetail(movieDetailFragment)
-        }
+//        val fragment = MovieDetailFragment()
+//        switchToMovieDetail(fragment)
     }
 
     private fun configWeeklyRankView() {
