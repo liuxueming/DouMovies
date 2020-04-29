@@ -29,17 +29,17 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:remote="@{item.imageLarge}"
-                app:srcCompat="@drawable/ic_image_loading" />
+                app:srcCompat="@drawable/ic_image_loading"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:id="@+id/weekly_rank_cover_text"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_rank_bg"
                 android:gravity="center"
-                android:text="@{String.valueOf(item.rank)}"
+                app:ranking="@{item.rank}"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -143,7 +143,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/weekly_rank_intro_bg"
-            android:text="TODO:summary ，哈哈哈啊哈哈"
+            android:text="@{item.summary}"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/weekly_rank_tags"
