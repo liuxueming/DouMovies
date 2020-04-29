@@ -11,7 +11,54 @@ data class WeeklyMovieItem(
     val delta: Int,
     val rank: Int,
     val subject: SubjectX
-)
+){
+    fun getRatingValue(): Double {
+        return this.subject.rating.average / 2.0
+    }
+
+    fun getRatingAverageText(): String {
+        return this.subject.rating.average.toString()
+    }
+
+    fun getIntroText(): String {
+        val outputStr = StringBuilder(this.subject.year).append(" / ")
+        this.subject.countries?.forEach {
+            outputStr.append(it)
+            outputStr.append(" / ")
+        }
+        this.subject.genres.forEach {
+            outputStr.append(it)
+            outputStr.append(" ")
+        }
+        outputStr.append("/ ")
+        this.subject.directors.forEach {
+            outputStr.append(it.name)
+            outputStr.append(" ")
+        }
+
+        if (this.subject.casts.isNullOrEmpty()) {
+            return outputStr.toString()
+        }
+
+        outputStr.append("/ ")
+        this.subject.casts?.forEach {
+            outputStr.append(it.name)
+            outputStr.append(" ")
+        }
+
+        return outputStr.toString()
+    }
+
+    fun getPositiveRate() : String {
+        val details = this.subject.rating.details
+        var sum = details.fourScore + details.fiveScore + details.threeScore + details.secondScore + details.firstScore
+        val goodRate = ((details.fourScore + details.fiveScore) / sum).times(100)
+
+        val outputStr =
+            StringBuilder(String.format("%.0f", goodRate)).append("%").append("好评")
+        return outputStr.toString()
+    }
+}
 
 data class SubjectX(
     val alt: String? = null,

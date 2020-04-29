@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.thoughtworks.doumovies.model.WeeklyMovieItem" />
+            type="com.thoughtworks.doumovies.model.http.WeeklyMovieItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:remote="@{item.imageLarge}"
+                app:remote="@{item.subject.images.large}"
                 app:srcCompat="@drawable/ic_image_loading" />
 
             <TextView
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:remote="@{item.photos.get(0).image}"
+                app:remote="@{item.subject.photos.get(0).image}"
                 app:srcCompat="@drawable/ic_image_loading" />
             />
         </androidx.cardview.widget.CardView>
@@ -74,7 +74,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:text="@{item.title}"
+            android:text="@{item.subject.title}"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -143,7 +143,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/weekly_rank_intro_bg"
-            android:text="@{item.summary}"
+            android:text="@{item.subject.summary}"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/weekly_rank_tags"
@@ -162,6 +162,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/weekly_rank_intro"
             app:layout_constraintTop_toBottomOf="@+id/weekly_rank_intro"
-            app:tags="@{item.genres}"></LinearLayout>
+            app:tags="@{item.subject.genres}"></LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
