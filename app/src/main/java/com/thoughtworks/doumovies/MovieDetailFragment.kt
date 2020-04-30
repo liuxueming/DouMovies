@@ -1,6 +1,7 @@
 package com.thoughtworks.doumovies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -36,5 +37,9 @@ class MovieDetailFragment : Fragment() {
                 toolbar_scroll_title.visibility = View.VISIBLE
             }
         }})
+
+//        my_toolbar.setNavigationOnClickListener {
+//            Log.d("click","点击了返回键")
+//        }
     }
 }

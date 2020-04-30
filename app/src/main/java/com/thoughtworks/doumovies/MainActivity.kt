@@ -7,10 +7,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
+import kotlinx.android.synthetic.main.tool_bar.*
 import kotlinx.android.synthetic.main.weekly_rank_item.*
 
 class MainActivity : AppCompatActivity() {
     private val adapter by lazy { WeeklyRankAdapter() }
+
+    private var currentFragment = Fragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         rankFragment.arguments = bundle
         switchFragment(rankFragment)
 
-        adapter?.setOnItemClickListener(object: WeeklyRankAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object: WeeklyRankAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("click","点击了${position} 个")
                 //TODO: switch to target fragment
