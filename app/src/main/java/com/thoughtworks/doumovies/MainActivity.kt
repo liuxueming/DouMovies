@@ -22,11 +22,6 @@ class MainActivity : AppCompatActivity() {
             adapter.updateData(weeklyMovieItem)
         })
         movieViewModel.getWeeklyMovie()
-
-        weekly_rank_cover_img?.setOnClickListener {
-            val movieDetailFragment = MovieDetailFragment()
-            switchFragment(movieDetailFragment)
-        }
     }
 
     private fun configWeeklyRankView() {
@@ -40,6 +35,8 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("click","点击了${position} 个")
                 //TODO: switch to target fragment
+                val movieDetailFragment = MovieDetailFragment()
+                switchFragment(movieDetailFragment)
             }
         })
     }
