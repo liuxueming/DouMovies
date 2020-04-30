@@ -6,8 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thoughtworks.doumovies.databinding.WeeklyRankItemBinding
 import com.thoughtworks.doumovies.model.http.WeeklyMovieItem
+import java.io.Serializable
 
-class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Serializable {
     private val weeklyMovieItems = mutableListOf<WeeklyMovieItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

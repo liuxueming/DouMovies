@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.movie_rank_fragement.*
+import kotlinx.android.synthetic.main.weekly_rank_item.*
 
 class MainActivity : AppCompatActivity() {
     private val adapter by lazy { WeeklyRankAdapter() }
@@ -24,14 +26,22 @@ class MainActivity : AppCompatActivity() {
 
 //        val fragment = MovieDetailFragment()
 //        switchToMovieDetail(fragment)
+
+        weekly_rank_cover_img?.setOnClickListener {
+            val movieDetailFragment = MovieDetailFragment()
+            switchFragment(movieDetailFragment)
+        }
     }
 
     private fun configWeeklyRankView() {
-        weekly_rank_recycle_view.layoutManager = LinearLayoutManager(this)
-        weekly_rank_recycle_view.adapter = adapter
+        val bundle = Bundle()
+        bundle.putSerializable("adapter",adapter)
+        val rankFragment = MovieRankFragment()
+        rankFragment.arguments = bundle
+        switchFragment(rankFragment)
     }
 
-    private fun switchToMovieDetail(targetFragment: Fragment) {
+    private fun switchFragment(targetFragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
             .add(R.id.fragment_frame, targetFragment)
