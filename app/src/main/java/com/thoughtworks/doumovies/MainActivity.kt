@@ -7,13 +7,9 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.tool_bar.*
-import kotlinx.android.synthetic.main.weekly_rank_item.*
 
 class MainActivity : AppCompatActivity() {
-    private val adapter by lazy { WeeklyRankAdapter() }
-
-    private var currentFragment = Fragment()
+    val adapter by lazy { WeeklyRankAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,27 +23,52 @@ class MainActivity : AppCompatActivity() {
         movieViewModel.getWeeklyMovie()
     }
 
+    override fun onBackPressed() {
+        val fragments = supportFragmentManager.fragments
+        val rankFragments = fragments.filterIsInstance<MovieRankFragment>()
+        val detailFragments = fragments.filterIsInstance<MovieDetailFragment>()
+        if (detailFragments.isNotEmpty() && detailFragments[0].isVisible) {
+            if (rankFragments.isNotEmpty()) {
+                switchFragment(rankFragments[0], detailFragments[0])
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun configWeeklyRankView() {
         val bundle = Bundle()
         bundle.putSerializable("adapter",adapter)
         val rankFragment = MovieRankFragment()
         rankFragment.arguments = bundle
-        switchFragment(rankFragment)
+        switchFragment(rankFragment, null)
 
         adapter.setOnItemClickListener(object: WeeklyRankAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 Log.d("click","点击了${position} 个")
                 //TODO: switch to target fragment
+                val bundle = Bundle()
+                bundle.putSerializable("rankFragment", rankFragment)
                 val movieDetailFragment = MovieDetailFragment()
-                switchFragment(movieDetailFragment)
+                movieDetailFragment.arguments = bundle
+                switchFragment(movieDetailFragment, rankFragment)
             }
         })
     }
 
-    private fun switchFragment(targetFragment: Fragment) {
+    private fun switchFragment(targetFragment: Fragment, currentFragment: Fragment?) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction
-            .add(R.id.fragment_frame, targetFragment)
-            .commit()
+        currentFragment?.let {
+            transaction.hide(currentFragment)
+        }
+        if (targetFragment.isAdded) {
+            transaction
+                .show(targetFragment)
+                .commit()
+        } else {
+            transaction
+                .add(R.id.fragment_frame, targetFragment)
+                .commit()
+        }
     }
 }

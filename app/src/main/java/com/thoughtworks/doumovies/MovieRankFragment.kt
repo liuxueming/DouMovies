@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.io.Serializable
 
-class MovieRankFragment() : Fragment() {
+class MovieRankFragment() : Fragment(), Serializable {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
