@@ -1,6 +1,7 @@
 package com.thoughtworks.doumovies
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,11 @@ import java.io.Serializable
 
 class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Serializable {
     private val weeklyMovieItems = mutableListOf<WeeklyMovieItem>()
+    private lateinit var onItemClickListener: OnItemClickListener
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.onItemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return WeeklyRankViewHolder(
@@ -28,6 +34,9 @@ class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Seria
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as WeeklyRankViewHolder).bind(weeklyMovieItems[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.onItemClick(holder.itemView, position)
+        }
     }
 
     fun updateData(newData: List<WeeklyMovieItem>?) {
@@ -43,5 +52,9 @@ class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Seria
         fun bind(item: WeeklyMovieItem) {
             dataBinding.item = item
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int)
     }
 }

@@ -2,12 +2,11 @@ package com.thoughtworks.doumovies
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.movie_rank_fragement.*
 import kotlinx.android.synthetic.main.weekly_rank_item.*
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +23,6 @@ class MainActivity : AppCompatActivity() {
         })
         movieViewModel.getWeeklyMovie()
 
-//        val fragment = MovieDetailFragment()
-//        switchToMovieDetail(fragment)
-
         weekly_rank_cover_img?.setOnClickListener {
             val movieDetailFragment = MovieDetailFragment()
             switchFragment(movieDetailFragment)
@@ -39,6 +35,13 @@ class MainActivity : AppCompatActivity() {
         val rankFragment = MovieRankFragment()
         rankFragment.arguments = bundle
         switchFragment(rankFragment)
+
+        adapter?.setOnItemClickListener(object: WeeklyRankAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, position: Int) {
+                Log.d("click","点击了${position} 个")
+                //TODO: switch to target fragment
+            }
+        })
     }
 
     private fun switchFragment(targetFragment: Fragment) {
