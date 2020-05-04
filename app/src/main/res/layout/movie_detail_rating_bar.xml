@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/detail_rating_stars"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:focusableInTouchMode="false"
-        android:isIndicator="true"
-        android:minHeight="14dp"
-        android:numStars="5"
-        android:progressBackgroundTint="@color/rating_stars_unselected_color"
-        android:progressTint="@color/rating_stars_color"
-        app:layout_constraintEnd_toStartOf="@+id/movie_detail_progress"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <ProgressBar
-        android:id="@+id/movie_detail_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:max="100"
-        android:progress="80"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="numStarsValue"
+            type="java.lang.Integer" />
+
+        <variable
+            name="progressValue"
+            type="java.lang.Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/detail_rating_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:focusableInTouchMode="false"
+            android:isIndicator="true"
+            android:minHeight="14dp"
+            android:numStars="@{numStarsValue}"
+            android:progressBackgroundTint="@color/rating_stars_unselected_color"
+            android:progressTint="@color/rating_stars_color"
+            app:layout_constraintEnd_toStartOf="@+id/movie_detail_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/movie_detail_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:max="100"
+            android:progress="66"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
