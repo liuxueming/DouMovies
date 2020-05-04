@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DouMovies</string>
+    <string name="doubanRatingTitle">豆瓣评分™</string>
 </resources>

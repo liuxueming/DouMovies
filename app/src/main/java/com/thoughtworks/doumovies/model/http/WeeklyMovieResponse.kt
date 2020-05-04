@@ -62,7 +62,7 @@ data class WeeklyMovieItem(
 
 data class SubjectX(
     val alt: String? = null,
-    val casts: List<People>,
+    val casts: List<People>?,
     @SerializedName("collect_count")
     val collectCount: Int? = null,
     val directors: List<People>,

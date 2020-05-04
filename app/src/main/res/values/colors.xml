@@ -6,4 +6,5 @@
     <color name="intro_bg_color">#F4F4F4</color>
     <color name="rating_stars_color">#F3AD4B</color>
     <color name="rating_stars_unselected_color">#CACACA</color>
+    <color name="detail_rating_bg_color">#3C382C</color>
 </resources>

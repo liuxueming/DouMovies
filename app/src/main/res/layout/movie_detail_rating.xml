@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/detail_rating_bg_color">
+
+        <TextView
+            android:id="@+id/detail_rating_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/doubanRatingTitle"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/detail_rating_value"
+            android:layout_width="65dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="7.5"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="@+id/detail_rating_title"
+            app:layout_constraintTop_toBottomOf="@+id/detail_rating_title" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/detail_rating_value_stars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:focusableInTouchMode="false"
+            android:isIndicator="true"
+            android:minHeight="18dp"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/rating_stars_unselected_color"
+            android:progressTint="@color/rating_stars_color"
+            android:rating="4.2"
+            app:layout_constraintEnd_toEndOf="@+id/detail_rating_value"
+            app:layout_constraintStart_toStartOf="@+id/detail_rating_value"
+            app:layout_constraintTop_toBottomOf="@+id/detail_rating_value" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detail_rating_value_stars"
+            app:layout_constraintTop_toTopOf="@+id/detail_rating_value">
+
+            <include layout="@layout/movie_detail_rating_bar"></include>
+
+            <include layout="@layout/movie_detail_rating_bar"></include>
+
+            <include layout="@layout/movie_detail_rating_bar"></include>
+
+            <include layout="@layout/movie_detail_rating_bar"></include>
+
+            <include layout="@layout/movie_detail_rating_bar"></include>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/detail_rating_rating_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4430人评分"
+            android:textColor="#5E5A51"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <View
+            android:id="@+id/detail_rating_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#423E33"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.607"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_rating_rating_num" />
+
+        <TextView
+            android:id="@+id/detail_rating_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="4889人看过"
+            android:textColor="#7C7971"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/detail_rating_title"
+            app:layout_constraintTop_toBottomOf="@+id/detail_rating_line" />
+
+        <TextView
+            android:id="@+id/detail_rating_want_see"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="2.1万人想看"
+            android:textColor="#7C7971"
+            app:layout_constraintBaseline_toBaselineOf="@+id/detail_rating_seen"
+            app:layout_constraintStart_toEndOf="@+id/detail_rating_seen" />
+
+        >
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
