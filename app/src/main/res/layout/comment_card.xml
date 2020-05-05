@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp">
+
+    <ImageView
+        android:id="@+id/commentator_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/commentator_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="同志亦凡人中文站"
+        android:textColor="#ffffff"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/commentator_stars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        android:minHeight="14dp"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/rating_stars_unselected_color"
+        android:progressTint="@color/rating_stars_color"
+        android:rating="4.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentator_nick"/>
+
+    <TextView
+        android:id="@+id/create_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="2019年11月1日"
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toEndOf="@+id/commentator_stars"
+        app:layout_constraintTop_toBottomOf="@+id/commentator_nick"/>
+
+    <TextView
+        android:id="@+id/commentator_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="2019年11月1日"
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentator_img"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

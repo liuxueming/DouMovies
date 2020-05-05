@@ -33,9 +33,10 @@ class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Seria
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as WeeklyRankViewHolder).bind(weeklyMovieItems[position])
+        val weeklyMovieItem = weeklyMovieItems[position]
+        (holder as WeeklyRankViewHolder).bind(weeklyMovieItem)
         holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(holder.itemView, position)
+            onItemClickListener?.onItemClick(holder.itemView, position, weeklyMovieItem.subject.id)
         }
     }
 
@@ -55,6 +56,6 @@ class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Seria
     }
 
     interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int)
+        fun onItemClick(view: View, position: Int, movieId: String)
     }
 }

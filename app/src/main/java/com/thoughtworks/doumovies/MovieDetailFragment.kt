@@ -1,17 +1,23 @@
 package com.thoughtworks.doumovies
 
+import android.R.attr.data
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.thoughtworks.doumovies.databinding.MovieDetailBinding
+import com.thoughtworks.doumovies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.movie_detail.*
 import kotlinx.android.synthetic.main.tool_bar.*
-
+import androidx.lifecycle.Observer
 
 class MovieDetailFragment : Fragment() {
 
-    lateinit var appCompatActivity: AppCompatActivity
+    private lateinit var appCompatActivity: AppCompatActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +29,20 @@ class MovieDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val movieDetailDataBinding = DataBindingUtil.inflate<MovieDetailBinding>(
+            inflater, R.layout.movie_detail, container, false
+        )
+        val view: View = movieDetailDataBinding.root
 
-        return inflater.inflate(R.layout.movie_detail, null)
+        val movieViewModel = MovieViewModel(appCompatActivity.application)
+        movieViewModel.movieDetailLiveData.observe(this, Observer { movieDetail ->
+            movieDetailDataBinding.detail = movieDetail
+        })
+        arguments?.let {
+            val movieId = it.getSerializable("movieId") as String
+            movieViewModel.getMovieDetail(movieId)
+        }
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

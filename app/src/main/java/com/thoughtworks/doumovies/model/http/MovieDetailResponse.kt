@@ -1,5 +1,7 @@
 package com.thoughtworks.doumovies.model.http
 
+import com.google.gson.annotations.SerializedName
+
 data class MovieDetailResponse(
     val aka: List<String>,
     val alt: String,
@@ -27,7 +29,8 @@ data class MovieDetailResponse(
     val languages: List<String>,
     val mainland_pubdate: String,
     val mobile_url: String,
-    val original_title: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
     val photos: List<Photo>,
     val photos_count: Int,
     val popular_comments: List<PopularComment>,
@@ -51,7 +54,29 @@ data class MovieDetailResponse(
     val wish_count: Int,
     val writers: List<People>,
     val year: String
-)
+) {
+    fun getYearStr() : String {
+        return StringBuilder("(").append(this.year).append(")").toString()
+    }
+
+    fun getCombineInfo() : String {
+        val combineInfo = StringBuilder(this.countries.joinToString(" ")).append(" / ")
+        combineInfo.append(this.genres.joinToString(" ")).append(" / ")
+        combineInfo.append("上映时间: ")
+        combineInfo.append(this.pubdates[0]).append(" / ")
+        combineInfo.append("片长: ")
+        combineInfo.append(this.durations[0])
+        return combineInfo.toString()
+    }
+
+    fun getCastAndDirectors() : List<People> {
+        this.casts.forEach{ it.role = "演员" }
+        this.directors.forEach{ it.role = "导演" }
+        val castAndDirectors = this.directors.toMutableList()
+        castAndDirectors.addAll(this.casts)
+        return castAndDirectors
+    }
+}
 
 data class Photo(
     val alt: String,
