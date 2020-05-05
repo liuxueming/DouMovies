@@ -77,6 +77,7 @@ object CommentsAtrrAdapter {
             commentView.commentator_nick.text = it.author.name
             commentView.create_time.text = it.created_at
             commentView.commentator_content.text = it.content
+            commentView.commentator_stars.rating = it.rating.value.toFloat()
             parent.addView(commentView)
         }
     }

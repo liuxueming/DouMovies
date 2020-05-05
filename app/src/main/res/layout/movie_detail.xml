@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools">
+    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -17,7 +17,11 @@
         android:background="#454343"
         android:orientation="vertical">
 
-        <include layout="@layout/tool_bar"></include>
+        <include
+            layout="@layout/tool_bar"
+            bind:movieDetail="@{detail}">
+
+        </include>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scroll_view"
@@ -155,6 +159,19 @@
 
                 </LinearLayout>
 
+                <include
+                    android:id="@+id/include"
+                    layout="@layout/movie_detail_rating"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/combine_info"
+                    app:layout_constraintStart_toStartOf="@+id/avatar_rank_cover"
+                    app:layout_constraintTop_toBottomOf="@+id/avatar_rank_cover"
+                    bind:rating="@{detail.rating}"/>
+
                 <HorizontalScrollView
                     android:id="@+id/tags_text"
                     android:layout_width="match_parent"
@@ -164,7 +181,7 @@
                     android:layout_marginTop="40dp"
                     android:scrollbars="none"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/focus_btn">
+                    app:layout_constraintTop_toBottomOf="@+id/include">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -286,10 +303,12 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="10dp"
                     app:cardCornerRadius="4dp"
                     app:cardBackgroundColor="#2A2A2A"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/photos">
 
                     <TextView
@@ -305,7 +324,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="100dp"
+                        android:layout_marginTop="50dp"
                         android:orientation="vertical"
                         app:comments="@{detail.popular_comments}">
 

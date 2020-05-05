@@ -39,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="96dp"
             android:layout_marginLeft="96dp"
-            android:max="100"
-            android:progress="66"
+            android:max="1000"
+            android:progress="@{progressValue}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

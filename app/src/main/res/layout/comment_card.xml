@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:layout_marginTop="20dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp">
 
@@ -19,7 +19,6 @@
         android:id="@+id/commentator_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="同志亦凡人中文站"
         android:textColor="#ffffff"
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
@@ -47,7 +46,7 @@
         android:id="@+id/create_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:text="2019年11月1日"
@@ -59,7 +58,7 @@
         android:id="@+id/commentator_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="2019年11月1日"
         android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"

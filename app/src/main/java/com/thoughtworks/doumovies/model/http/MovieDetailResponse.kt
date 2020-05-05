@@ -92,7 +92,7 @@ data class PopularComment(
     val content: String,
     val created_at: String,
     val id: String,
-    val rating: Rating,
+    val rating: RatingX,
     val subject_id: String,
     val useful_count: Int
 )

@@ -13,4 +13,28 @@ data class Details(
     val fourScore: Double,
     @SerializedName("5")
     val fiveScore: Double
-)
+) {
+    fun getSum() : Double {
+        return firstScore + secondScore + threeScore + fourScore + firstScore
+    }
+
+    fun getPerThousandFor1() : Int {
+        return (firstScore / this.getSum() * 1000).toInt()
+    }
+
+    fun getPerThousandFor2() : Int {
+        return (secondScore / this.getSum() * 1000).toInt()
+    }
+
+    fun getPerThousandFor3() : Int {
+        return (threeScore / this.getSum() * 1000).toInt()
+    }
+
+    fun getPerThousandFor4() : Int {
+        return (fourScore / this.getSum() * 1000).toInt()
+    }
+
+    fun getPerThousandFor5() : Int {
+        return (fiveScore / this.getSum() * 1000).toInt()
+    }
+}

@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
         android:layout_marginTop="10dp"
-        android:text="奥利维埃"
+        android:singleLine="true"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cast_img"/>
 
