@@ -31,7 +31,7 @@ data class WeeklyMovieItem(
             outputStr.append(" ")
         }
         outputStr.append("/ ")
-        this.subject.directors.forEach {
+        this.subject.directors?.forEach {
             outputStr.append(it.name)
             outputStr.append(" ")
         }
@@ -65,7 +65,7 @@ data class SubjectX(
     val casts: List<People>?,
     @SerializedName("collect_count")
     val collectCount: Int? = null,
-    val directors: List<People>,
+    val directors: List<People>?,
     val durations: List<String>? = null,
     val genres: List<String>,
     @SerializedName("has_video")

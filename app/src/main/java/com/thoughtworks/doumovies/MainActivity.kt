@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.thoughtworks.doumovies.repository.MovieRepository
+import com.thoughtworks.doumovies.repository.room.config.DbInstance
 import com.thoughtworks.doumovies.viewmodel.MovieViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         configWeeklyRankView()
 
-        val movieViewModel = MovieViewModel(this.application)
+        val movieViewModel = MovieViewModel(this.application, MovieRepository(DbInstance.getMovieItemDao()))
         movieViewModel.weeklyMovieLiveData.observe(this, Observer { weeklyMovieItem ->
             adapter.updateData(weeklyMovieItem)
         })
@@ -46,11 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object: WeeklyRankAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int, movieId: String) {
-                Log.d("click","点击了${position} 个")
-                //TODO: switch to target fragment
                 val bundle = Bundle()
                 bundle.putSerializable("rankFragment", rankFragment)
-                bundle.putSerializable("movieId", movieId)
+                bundle.putString("movieId", movieId)
                 val movieDetailFragment = MovieDetailFragment()
                 movieDetailFragment.arguments = bundle
                 switchFragment(movieDetailFragment, rankFragment)

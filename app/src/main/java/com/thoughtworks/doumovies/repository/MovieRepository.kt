@@ -3,20 +3,52 @@ package com.thoughtworks.doumovies.repository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.thoughtworks.doumovies.model.http.*
-import com.thoughtworks.doumovies.repository.room.config.DbInstance
+import com.thoughtworks.doumovies.repository.room.dao.MovieItemDao
 import com.thoughtworks.doumovies.repository.room.entity.MovieItem
+import com.thoughtworks.doumovies.utils.MovieHttpUtil
 
-class MovieRepository() {
-    private val movieItemDao = DbInstance.getMovieItemDao()
+class MovieRepository(private val movieItemDao: MovieItemDao) {
     private val gson = Gson()
+    private val movieHttp = MovieHttpUtil()
 
-    fun getWeeklyMovieFromDb(): List<WeeklyMovieItem> {
+    fun getWeeklyMovie(success: (weeklyMovies: List<WeeklyMovieItem>) -> Unit) {
+        val weeklyMovies = getWeeklyMovieFromDb()
+        if (weeklyMovies.isEmpty()) {
+            movieHttp.getWeeklyMovies({ weeklyMovieResponse ->
+                success(weeklyMovieResponse.subjects)
+                getAndUpdateDetailInfo(weeklyMovieResponse.subjects) { response -> success(response)}
+                saveWeeklyMovieToDb(weeklyMovieResponse)
+            }, {})
+        } else {
+            success(weeklyMovies)
+        }
+    }
+
+    fun getMovieDetail(movieId: String, success: (movieDetail: MovieDetailResponse) -> Unit) {
+        movieHttp.getMovieDetail(movieId, { movieDetail ->
+            success(movieDetail)
+        }, {})
+    }
+
+    private fun getWeeklyMovieFromDb(): List<WeeklyMovieItem> {
         val movieItems = movieItemDao.findAll()
         return movieItems.map { mapToWeeklyMovieItem(it) }
     }
 
-    fun saveWeeklyMovieToDb(weeklyMovieResponse: WeeklyMovieResponse) {
+    private fun saveWeeklyMovieToDb(weeklyMovieResponse: WeeklyMovieResponse) {
         movieItemDao.insert(mapToMovieItem(weeklyMovieResponse))
+    }
+
+    private fun getAndUpdateDetailInfo(weeklyMovieItems: List<WeeklyMovieItem>, success: (weeklyMovies: List<WeeklyMovieItem>) -> Unit) {
+        weeklyMovieItems.forEach { weeklyMovieItem ->
+            movieHttp.getMovieDetail(weeklyMovieItem.subject.id, {
+                weeklyMovieItem.subject.summary = it.summary
+                weeklyMovieItem.subject.photos = it.photos
+                weeklyMovieItem.subject.countries = it.countries
+                success(weeklyMovieItems)
+                updateWeeklyMovieItem(it)
+            }, {})
+        }
     }
 
     private fun mapToMovieItem(weeklyMovieResponse: WeeklyMovieResponse): List<MovieItem> {
@@ -60,7 +92,7 @@ class MovieRepository() {
         )
     }
 
-    fun updateWeeklyMovieItem(movieDetail: MovieDetailResponse) {
+    private fun updateWeeklyMovieItem(movieDetail: MovieDetailResponse) {
         val photos = Gson().toJson(movieDetail.photos)
         val countries = movieDetail.countries.joinToString(",")
         movieItemDao.updateSummaryAndCountriesByMovieId(movieDetail.id, movieDetail.summary, countries, photos)

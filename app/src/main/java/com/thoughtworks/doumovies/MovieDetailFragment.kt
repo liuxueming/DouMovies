@@ -14,6 +14,8 @@ import com.thoughtworks.doumovies.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.movie_detail.*
 import kotlinx.android.synthetic.main.tool_bar.*
 import androidx.lifecycle.Observer
+import com.thoughtworks.doumovies.repository.MovieRepository
+import com.thoughtworks.doumovies.repository.room.config.DbInstance
 
 class MovieDetailFragment : Fragment() {
 
@@ -34,12 +36,13 @@ class MovieDetailFragment : Fragment() {
         )
         val view: View = movieDetailDataBinding.root
 
-        val movieViewModel = MovieViewModel(appCompatActivity.application)
+        val movieViewModel = MovieViewModel(appCompatActivity.application, MovieRepository(
+            DbInstance.getMovieItemDao()))
         movieViewModel.movieDetailLiveData.observe(this, Observer { movieDetail ->
             movieDetailDataBinding.detail = movieDetail
         })
         arguments?.let {
-            val movieId = it.getSerializable("movieId") as String
+            val movieId = it.getString("movieId") as String
             movieViewModel.getMovieDetail(movieId)
         }
         return view
