@@ -34,8 +34,8 @@ class MovieHttpUtil {
 
     fun getMovieDetail(
         movieId: String,
-        success: (movieDetail: MovieDetailResponse) -> Unit,
-        fail: () -> Unit
+        success: (movieDetail: MovieDetailResponse) -> Unit?,
+        fail: () -> Unit?
     ) {
         val request = Request.Builder()
             .url("${DETAIL_URL_PREFIX}/${movieId}")

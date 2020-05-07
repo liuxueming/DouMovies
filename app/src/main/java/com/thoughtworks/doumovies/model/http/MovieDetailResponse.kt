@@ -3,56 +3,33 @@ package com.thoughtworks.doumovies.model.http
 import com.google.gson.annotations.SerializedName
 
 data class MovieDetailResponse(
-    val aka: List<String>,
-    val alt: String,
-    val blooper_urls: List<Any>,
-    val bloopers: List<Any>,
     val casts: List<People>,
-    val clip_urls: List<Any>,
-    val clips: List<Any>,
-    val collect_count: Int,
-    val collection: Any,
-    val comments_count: Int,
+    @SerializedName("comments_count")
+    val commentsCount: Int? = null,
     val countries: List<String>,
-    val current_season: Any,
     val directors: List<People>,
-    val do_count: Any,
-    val douban_site: String,
     val durations: List<String>,
-    val episodes_count: Any,
     val genres: List<String>,
-    val has_schedule: Boolean,
-    val has_ticket: Boolean,
-    val has_video: Boolean,
     val id: String,
     val images: Images,
     val languages: List<String>,
-    val mainland_pubdate: String,
-    val mobile_url: String,
+    @SerializedName("mainland_pubdate")
+    val mainlandPubdate: String? = null,
     @SerializedName("original_title")
     val originalTitle: String,
-    val photos: List<Photo>,
-    val photos_count: Int,
-    val popular_comments: List<PopularComment>,
-    val popular_reviews: List<PopularReview>,
-    val pubdate: String,
+    val photos: List<Photo>? = null,
+    @SerializedName("photos_count")
+    val photosCount: Int? = null,
+    @SerializedName("popular_comments")
+    val popularComments: List<PopularComment>? = null,
+    @SerializedName("popular_reviews")
+    val popularReviews: List<PopularReview>? = null,
+    val pubdate: String? = null,
     val pubdates: List<String>,
     val rating: Rating,
-    val ratings_count: Int,
-    val reviews_count: Int,
-    val schedule_url: String,
-    val seasons_count: Any,
-    val share_url: String,
-    val subtype: String,
     val summary: String,
     val tags: List<String>,
     val title: String,
-    val trailer_urls: List<Any>,
-    val trailers: List<Any>,
-    val videos: List<Video>,
-    val website: String,
-    val wish_count: Int,
-    val writers: List<People>,
     val year: String
 ) {
     fun getYearStr() : String {
@@ -107,13 +84,6 @@ data class PopularReview(
     val title: String
 )
 
-data class Video(
-    val need_pay: Boolean,
-    val sample_link: String,
-    val source: Source,
-    val video_id: String
-)
-
 data class Author(
     val alt: String,
     val avatar: String,
@@ -127,10 +97,4 @@ data class RatingX(
     val max: Int,
     val min: Int,
     val value: Double
-)
-
-data class Source(
-    val literal: String,
-    val name: String,
-    val pic: String
 )
