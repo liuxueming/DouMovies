@@ -9,7 +9,7 @@ import com.thoughtworks.doumovies.databinding.WeeklyRankItemBinding
 import com.thoughtworks.doumovies.model.http.WeeklyMovieItem
 import java.io.Serializable
 
-class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Serializable {
+class WeeklyRankAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val weeklyMovieItems = mutableListOf<WeeklyMovieItem>()
     private lateinit var onItemClickListener: OnItemClickListener
 

@@ -1,6 +1,5 @@
 package com.thoughtworks.doumovies
 
-import android.R.attr.data
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -69,25 +68,16 @@ class MovieDetailFragment : Fragment() {
         })
 
         my_toolbar.setNavigationOnClickListener {
-            arguments?.let {
-                val rankFragment = it.getSerializable("rankFragment") as MovieRankFragment
-                switchFragment(rankFragment)
-            }
+            backToMovieList()
         }
     }
 
-    private fun switchFragment(targetFragment: Fragment) {
-        val transaction = appCompatActivity.supportFragmentManager.beginTransaction()
-        if (targetFragment.isAdded) {
-            transaction
-                .remove(this)
-                .show(targetFragment)
-                .commit()
-        } else {
-            transaction
-                .remove(this)
-                .add(R.id.fragment_frame, targetFragment)
-                .commit()
-        }
+    private fun backToMovieList() {
+        val supportFragmentManager = appCompatActivity.supportFragmentManager
+        val transaction = supportFragmentManager.beginTransaction()
+        supportFragmentManager.popBackStack()
+        transaction
+            .remove(this)
+            .commit()
     }
 }
